@@ -3,17 +3,20 @@
 
 #각 변수의 합을 구해서 끝 컬럼으로 작성(ex. 이온합 등등)
 #이온합
-for(i in range(1:613)){
+for(i in 1:613){
   df_pca$ion_sum[i]<-sum(df_pca[i,14:24])
 }
 #금속합
-for(i in range(1:613)){
+for(i in 1:613){
   df_pca$metal_sum[i]<-sum(df_pca[i,25:36])
 }
 #탄소는 TC자료 사용
 
-plot(df_pca$date, df_pca$metal_sum)
-plot(df_pca[df_pca$site=="Ansan", "date"], df_pca[df_pca$site=="Ansan", "metal_sum"])
+#금속 성분 time scale plot
+metal_timescale<-ggplot(df_pca, aes(x=date, y=metal_sum, colour=site, shape=site))+geom_point()
+
+#x axis의 tick label이 너무 많아 겹쳐 표현되는 현상을 수정하려고 고민했는데 x축의 class가 date가 아닌 factor였기 때문에 생략하지 못함
+#class를 date로 바꿨더니 문제 해결
 #====================================================================
 #PCA(주성분분석)
 
@@ -27,7 +30,7 @@ weather_cor<-round(cor(df_pca[,c(3,10)]), digits = 3)
 
 ion_prcomp<-prcomp(df_pca[,14:24], scale. = T)    #주성분 3개
 metal_prcomp<-prcomp(df_pca[,25:36], scale. = T)  #주성분 2개
-#Fe, Al, Ca, Mg의 주성분이 너무 큼 제외시켜서 분석해야 하는지? 스케일 표준화를 하지 않아서 생긴 문
+#Fe, Al, Ca, Mg의 주성분이 너무 큼 제외시켜서 분석해야 하는지? 스케일 표준화를 하지 않아서 생긴 문제
 carbon_prcomp<-prcomp(df_pca[,37:39], scale. = T) #주성분 1개
 material_prcomp<-prcomp(df_pca[,14:39], scale. = T)          #주성분 3~4개
 weather_prcomp<-prcomp(df_pca[,c(3,10)], scale. = T)   #주성분 1개
