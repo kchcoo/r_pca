@@ -3,21 +3,26 @@
 
 #각 변수의 합을 구해서 끝 컬럼으로 작성(ex. 이온합 등등)
 #이온합
-for(i in range(1:613)){
+for(i in 1:613){
   df_pca$ion_sum[i]<-sum(df_pca[i,14:24])
 }
 #금속합
-for(i in range(1:613)){
+for(i in 1:613){
   df_pca$metal_sum[i]<-sum(df_pca[i,25:36])
 }
 #탄소는 TC자료 사용
 
-plot(df_pca$date, df_pca$metal_sum)
-plot(df_pca[df_pca$site=="Ansan", "date"], df_pca[df_pca$site=="Ansan", "metal_sum"])
+df_pca$date<-as.Date(df_pca$date, tz="Asia/Seoul", origin="1970-01-01") #날짜형식으로 바꾸기
+
+ggplot(data = df_pca, aes(x=date, y=ion_sum, colour=site, shape=site))+geom_point()
+ggplot(data = df_pca, aes(x=date, y=metal_sum, colour=site, shape=site))+geom_point()
+ggplot(data = df_pca, aes(x=date, y=PM, colour=site, shape=site))+geom_point()
+
+#각 사이트별로 pairplot을 그릴 수 있나?
 #====================================================================
 #PCA(주성분분석)
 
-df_pca<-read.csv("df_temp.csv", header = T)
+df_pca<-read.csv("df_pca.csv", header = T)
 ion_cor<-round(cor(df_pca[,14:26]), digits = 3)
 metal_cor<-round(cor(df_pca[,27:38]), digits = 3)
 carbon_cor<-round(cor(df_pca[,39:41]), digits = 3)
