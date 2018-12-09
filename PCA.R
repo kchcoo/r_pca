@@ -12,6 +12,7 @@ for(i in 1:613){
 }
 #탄소는 TC자료 사용
 
+<<<<<<< HEAD
 df_pca$date<-as.Date(df_pca$date, tz="Asia/Seoul", origin="1970-01-01") #날짜형식으로 바꾸기
 
 ggplot(data = df_pca, aes(x=date, y=ion_sum, colour=site, shape=site))+geom_point()
@@ -19,6 +20,13 @@ ggplot(data = df_pca, aes(x=date, y=metal_sum, colour=site, shape=site))+geom_po
 ggplot(data = df_pca, aes(x=date, y=PM, colour=site, shape=site))+geom_point()
 
 #각 사이트별로 pairplot을 그릴 수 있나?
+=======
+#금속 성분 time scale plot
+metal_timescale<-ggplot(df_pca, aes(x=date, y=metal_sum, colour=site, shape=site))+geom_point()
+
+#x axis의 tick label이 너무 많아 겹쳐 표현되는 현상을 수정하려고 고민했는데 x축의 class가 date가 아닌 factor였기 때문에 생략하지 못함
+#class를 date로 바꿨더니 문제 해결
+>>>>>>> 8331c7c5fe90c6f5a1b41962b43e6850509a5736
 #====================================================================
 #PCA(주성분분석)
 
@@ -32,7 +40,7 @@ weather_cor<-round(cor(df_pca[,c(3,10)]), digits = 3)
 
 ion_prcomp<-prcomp(df_pca[,14:24], scale. = T)    #주성분 3개
 metal_prcomp<-prcomp(df_pca[,25:36], scale. = T)  #주성분 2개
-#Fe, Al, Ca, Mg의 주성분이 너무 큼 제외시켜서 분석해야 하는지? 스케일 표준화를 하지 않아서 생긴 문
+#Fe, Al, Ca, Mg의 주성분이 너무 큼 제외시켜서 분석해야 하는지? 스케일 표준화를 하지 않아서 생긴 문제
 carbon_prcomp<-prcomp(df_pca[,37:39], scale. = T) #주성분 1개
 material_prcomp<-prcomp(df_pca[,14:39], scale. = T)          #주성분 3~4개
 weather_prcomp<-prcomp(df_pca[,c(3,10)], scale. = T)   #주성분 1개
