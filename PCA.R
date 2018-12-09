@@ -12,21 +12,25 @@ for(i in 1:613){
 }
 #탄소는 TC자료 사용
 
-<<<<<<< HEAD
 df_pca$date<-as.Date(df_pca$date, tz="Asia/Seoul", origin="1970-01-01") #날짜형식으로 바꾸기
 
-ggplot(data = df_pca, aes(x=date, y=ion_sum, colour=site, shape=site))+geom_point()
-ggplot(data = df_pca, aes(x=date, y=metal_sum, colour=site, shape=site))+geom_point()
-ggplot(data = df_pca, aes(x=date, y=PM, colour=site, shape=site))+geom_point()
+ion_timescale<-ggplot(data = df_pca, aes(x=date, y=ion_sum, colour=site, shape=site))+geom_point()
+metal_timescale<-ggplot(data = df_pca, aes(x=date, y=metal_sum, colour=site, shape=site))+geom_point()
+PM_timescale<-ggplot(data = df_pca, aes(x=date, y=PM, colour=site, shape=site))+geom_point()
+
+#각 사이트별 box-whisker plot
+ggplot(df_pca, aes(x=factor(site), y=PM))+geom_boxplot()
+ggplot(df_pca, aes(x=factor(site), y=ion_sum))+geom_boxplot()
+ggplot(df_pca, aes(x=factor(site), y=metal_sum))+geom_boxplot()
 
 #각 사이트별로 pairplot을 그릴 수 있나?
-=======
+
 #금속 성분 time scale plot
 metal_timescale<-ggplot(df_pca, aes(x=date, y=metal_sum, colour=site, shape=site))+geom_point()
 
 #x axis의 tick label이 너무 많아 겹쳐 표현되는 현상을 수정하려고 고민했는데 x축의 class가 date가 아닌 factor였기 때문에 생략하지 못함
 #class를 date로 바꿨더니 문제 해결
->>>>>>> 8331c7c5fe90c6f5a1b41962b43e6850509a5736
+
 #====================================================================
 #PCA(주성분분석)
 
@@ -63,6 +67,8 @@ all_prcomp_Uw<-prcomp(df_pca[df_pca$site=="Uiwang",c(3,10,14:39)], scale. = T) #
 all_prcomp_Ujb<-prcomp(df_pca[df_pca$site=="Uijeongbu",c(3,10,14:39)], scale. = T) #의정부 전체 주성분 분석
 all_prcomp_SU<-prcomp(df_pca[df_pca$site=="Suwon" | df_pca$site=="Uiwang", c(3,10,14:39)], scale. = T) # 수원 의왕 전체 주성분 분석
 
+metal_prcomp_As<-prcomp(df_pca[df_pca$site=="Ansan", 25:36], scale. = T) #안산 중금속 주성분 분석
+metal_prcomp_Pt<-prcomp(df_pca[df_pca$site=="Pyeongteak", 25:36], scale. = T) #평택 중금속 주성분 분석
 #자료를 잘랐더니 0만 있는 컬럼이 나와서 Li, PO4자료 삭제 
 #주성분분석 결과가 사이트마다 조금씩 달라보이기는 하지만 주성분이 너무 많은 문제가 있음 변수의 숫자 자체를 조금 줄여볼 필요가 있음
 #다중공선성의 문제로 최고온도, 최저온도, 최고풍속을 없앰
