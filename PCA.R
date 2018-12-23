@@ -23,6 +23,10 @@ ggplot(df_pca, aes(x=factor(site), y=PM))+geom_boxplot()
 ggplot(df_pca, aes(x=factor(site), y=ion_sum))+geom_boxplot()
 ggplot(df_pca, aes(x=factor(site), y=metal_sum))+geom_boxplot()
 
+#12/24 어떻게든 R로 그림을 그리려고 했지만 아직 적용이 힘든 부분이 많음 그림부분은 grapher로 옮김
+
+#stacked bar plot
+
 #각 사이트별로 pairplot을 그릴 수 있나?
 
 #금속 성분 time scale plot
