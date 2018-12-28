@@ -1,3 +1,22 @@
+#변수 및 dataset정리
+
+df_pca<-read.csv("df_pca.csv", header = T)
+df_pca_As<-read.csv("df_pca_As.csv", header = T)
+df_pca_Pt<-read.csv("df_pca_Pt.csv", header = T)
+df_pca_Sw<-read.csv("df_pca_Sw.csv", header = T)
+df_pca_Uw<-read.csv("df_pca_Uw.csv", header = T)
+df_pca_Ujb<-read.csv("df_pca_Ujb.csv", header = T)
+df_pca_SwUw<-read.csv("df_pca_SwUw.csv", header = T)
+
+df_pca$date<-as.Date(df_pca$date, tz="Asia/Seoul", origin="1970-01-01") #날짜형식으로 바꾸기
+df_pca_As$date<-as.Date(df_pca_As$date, tz="Asia/Seoul", origin="1970-01-01")
+df_pca_Pt$date<-as.Date(df_pca_Pt$date, tz="Asia/Seoul", origin="1970-01-01")
+df_pca_Sw$date<-as.Date(df_pca_Sw$date, tz="Asia/Seoul", origin="1970-01-01")
+df_pca_Uw$date<-as.Date(df_pca_Uw$date, tz="Asia/Seoul", origin="1970-01-01")
+df_pca_Ujb$date<-as.Date(df_pca_Ujb$date, tz="Asia/Seoul", origin="1970-01-01")
+df_pca_SwUw$date<-as.Date(df_pca_SwUw$date, tz="Asia/Seoul", origin="1970-01-01")
+
+#======================================================================
 #그래프 작성
 #시계열
 
@@ -12,7 +31,7 @@ for(i in 1:613){
 }
 #탄소는 TC자료 사용
 
-df_pca$date<-as.Date(df_pca$date, tz="Asia/Seoul", origin="1970-01-01") #날짜형식으로 바꾸기
+df_pca$date<-as.Date(df_pca$date, tz="Asia/Seoul", origin="1970-01-01") 
 
 ion_timescale<-ggplot(data = df_pca, aes(x=date, y=ion_sum, colour=site, shape=site))+geom_point()
 metal_timescale<-ggplot(data = df_pca, aes(x=date, y=metal_sum, colour=site, shape=site))+geom_point()
@@ -49,7 +68,7 @@ metal_timescale<-ggplot(df_pca, aes(x=date, y=metal_sum, colour=site, shape=site
 #====================================================================
 #PCA(주성분분석)
 
-df_pca<-read.csv("df_pca.csv", header = T)
+#먼저 해석하자!!
 ion_cor<-round(cor(df_pca[,14:26]), digits = 3)
 metal_cor<-round(cor(df_pca[,27:38]), digits = 3)
 carbon_cor<-round(cor(df_pca[,39:41]), digits = 3)
