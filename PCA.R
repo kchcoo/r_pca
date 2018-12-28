@@ -15,6 +15,9 @@ for(i in 1:613){
 #금속 성분 time scale plot
 metal_timescale<-ggplot(df_pca, aes(x=date, y=metal_sum, colour=site, shape=site))+geom_point()
 
+#site별 box-whisker plot, pie plot 그릴것 할 수 있으면 표로도 정리
+#저번엔 push 후 commit을 했는데 commit이 로컬에 저장하는 거고 push가 온라인으로 보내는 것 (순서 반대로함)
+
 #x axis의 tick label이 너무 많아 겹쳐 표현되는 현상을 수정하려고 고민했는데 x축의 class가 date가 아닌 factor였기 때문에 생략하지 못함
 #class를 date로 바꿨더니 문제 해결
 #====================================================================
