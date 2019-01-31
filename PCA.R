@@ -1,12 +1,21 @@
 #변수 및 dataset정리
 
+#데이터 정리 및 변수화 
+
+
 df_pca<-read.csv("df_pca.csv", header = T)
 df_pca_As<-read.csv("df_pca_As.csv", header = T)
 df_pca_Pt<-read.csv("df_pca_Pt.csv", header = T)
 df_pca_Sw<-read.csv("df_pca_Sw.csv", header = T)
+
 df_pca_Uw<-read.csv("df_pca_Uw.csv", header = T)
 df_pca_Ujb<-read.csv("df_pca_Ujb.csv", header = T)
 df_pca_SwUw<-read.csv("df_pca_SwUw.csv", header = T)
+
+df_pca_SwUw<-read.csv("df_pca_SwUw.csv", header = T)
+df_pca_Ujb<-read.csv("df_pca_Ujb.csv", header = T)
+df_pca_Uw<-read.csv("df_pca_Uw.csv", header = T)
+
 
 df_pca$date<-as.Date(df_pca$date, tz="Asia/Seoul", origin="1970-01-01") #날짜형식으로 바꾸기
 df_pca_As$date<-as.Date(df_pca_As$date, tz="Asia/Seoul", origin="1970-01-01")
@@ -17,10 +26,45 @@ df_pca_Ujb$date<-as.Date(df_pca_Ujb$date, tz="Asia/Seoul", origin="1970-01-01")
 df_pca_SwUw$date<-as.Date(df_pca_SwUw$date, tz="Asia/Seoul", origin="1970-01-01")
 
 df_pca$date2<-df_pca$date #date 컬럼을 하나 새로 만듦 
+
 df_pca<-tidyr::separate(df_pca, date2, c("y", "m", "d")) #새로만든 date2를 년도 월 일로 각각 컬럼으로 나눠줌 부분합 계산을 위해
 
 write.csv(df_pca, file = "df_pca.csv", row.names = F)
 #======================================================================
+
+df_pca_As$date2<-df_pca_As$date
+df_pca_Pt$date2<-df_pca_Pt$date
+df_pca_Sw$date2<-df_pca_Sw$date
+df_pca_Uw$date2<-df_pca_Uw$date
+df_pca_Ujb$date2<-df_pca_Ujb$date
+df_pca_SwUw$date2<-df_pca_SwUw$date
+
+df_pca<-tidyr::separate(df_pca, date2, c("y", "m", "d")) #새로만든 date2를 년도 월 일로 각각 컬럼으로 나눠줌 부분합 계산을 위해
+df_pca_As<-tidyr::separate(df_pca_As, date2, c("y", "m", "d"))
+df_pca_Pt<-tidyr::separate(df_pca_Pt, date2, c("y", "m", "d"))
+df_pca_Sw<-tidyr::separate(df_pca_Sw, date2, c("y", "m", "d"))
+df_pca_SwUw<-tidyr::separate(df_pca_SwUw, date2, c("y", "m", "d"))
+df_pca_Ujb<-tidyr::separate(df_pca_Ujb, date2, c("y", "m", "d"))
+df_pca_Uw<-tidyr::separate(df_pca_Uw, date2, c("y", "m", "d"))
+
+avg_monthly<-df_pca %>% group_by(m) %>% summarise_all(funs(mean))#월별 데이터 부분합
+avg_monthly_As<-df_pca_As %>% group_by(m) %>% summarise_all(funs(mean)) 
+avg_monthly_Pt<-df_pca_Pt %>% group_by(m) %>% summarise_all(funs(mean))
+avg_monthly_Sw<-df_pca_Sw %>% group_by(m) %>% summarise_all(funs(mean))
+avg_monthly_Uw<-df_pca_Uw %>% group_by(m) %>% summarise_all(funs(mean))
+avg_monthly_Ujb<-df_pca_Ujb %>% group_by(m) %>% summarise_all(funs(mean))
+avg_monthly_SwUw<-df_pca_SwUw %>% group_by(m) %>% summarise_all(funs(mean))
+
+write.csv(avg_monthly, file = "avg_monthly.csv", row.names = F)
+write.csv(avg_monthly_As, file = "avg_monthly_As.csv", row.names = F)
+write.csv(avg_monthly_Pt, file = "avg_monthly_Pt.csv", row.names = F)
+write.csv(avg_monthly_Sw, file = "avg_monthly_Sw.csv", row.names = F)
+write.csv(avg_monthly_Uw, file = "avg_monthly_Uw.csv", row.names = F)
+write.csv(avg_monthly_Ujb, file = "avg_monthly_Ujb.csv", row.names = F)
+write.csv(avg_monthly_SwUw, file = "avg_monthly_SwUw.csv", row.names = F)
+
+#=================================================
+
 #그래프 작성
 #시계열
 
@@ -35,7 +79,10 @@ for(i in 1:613){
 }
 #탄소는 TC자료 사용
 
+
 df_pca$date<-as.Date(df_pca$date, tz="Asia/Seoul", origin="1970-01-01") 
+
+
 
 ion_timescale<-ggplot(data = df_pca, aes(x=date, y=ion_sum, colour=site, shape=site))+geom_point()
 metal_timescale<-ggplot(data = df_pca, aes(x=date, y=metal_sum, colour=site, shape=site))+geom_point()
