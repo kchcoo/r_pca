@@ -16,6 +16,10 @@ df_pca_Uw$date<-as.Date(df_pca_Uw$date, tz="Asia/Seoul", origin="1970-01-01")
 df_pca_Ujb$date<-as.Date(df_pca_Ujb$date, tz="Asia/Seoul", origin="1970-01-01")
 df_pca_SwUw$date<-as.Date(df_pca_SwUw$date, tz="Asia/Seoul", origin="1970-01-01")
 
+df_pca$date2<-df_pca$date #date 컬럼을 하나 새로 만듦 
+df_pca<-tidyr::separate(df_pca, date2, c("y", "m", "d")) #새로만든 date2를 년도 월 일로 각각 컬럼으로 나눠줌 부분합 계산을 위해
+
+write.csv(df_pca, file = "df_pca.csv", row.names = F)
 #======================================================================
 #그래프 작성
 #시계열
@@ -46,8 +50,6 @@ ggplot(df_pca, aes(x=factor(site), y=metal_sum))+geom_boxplot()
 #어떻게든 데이터 정리를 하면 그릴 수는 있을 것 같음
 #date class에 월별로 부분합 등을 구할 수 있나? <-tidyr::sperate()로 date변수를 년월일로 나눌 수 있음 
 
-df_pca$date2<-df_pca$date #date 컬럼을 하나 새로 만듦 
-df_pca<-tidyr::separate(df_pca, date2, c("y", "m", "d")) #새로만든 date2를 년도 월 일로 각각 컬럼으로 나눠줌 부분합 계산을 위해 
 
 #각 site별로 월단위의 자료를 만듦 이걸로 bar plot 등 작성 
 avg_monthly_Pt<-df_pca_Pt %>% group_by(m) %>% summarise_all(funs(mean))
